@@ -1,16 +1,15 @@
-version: '3.8'
-
 services:
   web:
     build: .
     ports:
-      - "80:80"
+      - "8080:8080"
     volumes:
       - .:/var/www/html
     environment:
       CI_ENVIRONMENT: development
     depends_on:
       - db
+
   db:
     image: mysql:5.7
     volumes:
@@ -20,12 +19,13 @@ services:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: bdd
     ports:
-      - "3308:3307"
+      - "3308:3306"  # Correction de port pour éviter les conflits
+
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     restart: always
     ports:
-      - "8080:80"
+      - "8081:80"  # Correction de port pour éviter les conflits avec le web
     environment:
       PMA_HOST: db
       MYSQL_ROOT_PASSWORD: root
